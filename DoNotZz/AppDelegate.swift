@@ -7,15 +7,15 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
-    let statusItem = NSStatusBar.system().statusItem(withLength: NSSquareStatusItemLength)
+    
+    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     let activeImage = NSImage(named: "Enabled")
     let inactiveImage = NSImage(named: "Disabled")
     let enableItem = NSMenuItem()
     let disableItem = NSMenuItem()
     let keepAwakeOptions : ProcessInfo.ActivityOptions = [.userInitiated, .idleDisplaySleepDisabled, .idleSystemSleepDisabled]
     let info = ProcessInfo.processInfo
-
+    
     var stayAwakeActivity: NSObjectProtocol?
     
     override init() {
@@ -23,21 +23,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         enableItem.title = "Enable"
         enableItem.isEnabled = true
         enableItem.keyEquivalent = "e"
-        enableItem.action = #selector(AppDelegate.startKeepAwake)
+        enableItem.action = #selector(self.startKeepAwake)
         
         disableItem.title = "Disable"
         disableItem.isEnabled = false
         disableItem.keyEquivalent = "d"
-        disableItem.action = #selector(AppDelegate.stopKeepAwake)
+        disableItem.action = #selector(self.stopKeepAwake)
     }
-
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         setStatusImage(image: inactiveImage)
         
         let quitItem = NSMenuItem()
         quitItem.title = "Quit"
         quitItem.keyEquivalent = "q"
-        quitItem.action = #selector(AppDelegate.quit)
+        quitItem.action = #selector(self.quit)
         
         let menu = NSMenu()
         menu.autoenablesItems = false
@@ -47,12 +47,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(quitItem)
         setStatusMenu(menu: menu)
     }
-
+    
     func applicationWillTerminate(_ aNotification: Notification) {
         stopKeepAwake(sender: self)
     }
     
-    func startKeepAwake(sender: AnyObject) {
+    @objc func startKeepAwake(sender: AnyObject) {
         if stayAwakeActivity != nil {
             return
         }
@@ -64,7 +64,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         stayAwakeActivity = info.beginActivity(options: keepAwakeOptions, reason: "DoNotZz")
     }
     
-    func stopKeepAwake(sender: AnyObject) {
+    @objc func stopKeepAwake(sender: AnyObject) {
         if stayAwakeActivity == nil {
             return
         }
@@ -86,10 +86,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func setStatusMenu(menu: NSMenu?) {
         statusItem.menu = menu
     }
-
-    func quit(sender: AnyObject) {
-        NSApplication.shared().terminate(self)
+    
+    @objc func quit(sender: AnyObject) {
+        NSApplication.shared.terminate(self)
     }
-
 }
-
