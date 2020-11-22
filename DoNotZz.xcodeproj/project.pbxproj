@@ -96,10 +96,9 @@
 			};
 			buildConfigurationList = 5EB910231F3D012300523E4F /* Build configuration list for PBXProject "DoNotZz" */;
 			compatibilityVersion = "Xcode 12.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
